@@ -307,7 +307,12 @@ def run_system(command: str) -> int:
     return os.system(command.replace("\n", " "))
 
 
-def patch(_, target_folder, clang_compiler_path, linker_path, gcc_compiler_path, * args):
+def patch(_=None, target_folder=None, clang_compiler_path=None, linker_path=None, gcc_compiler_path=None, * args):
+    target_folder = "D:/Program Files/FA-Binary-Patches"
+    output_path = Path("C:/ProgramData/FAForever/bin")
+    clang_compiler_path = 'clang++.exe'
+    linker_path = "ld.exe"
+    gcc_compiler_path = "g++.exe"
     target_path = Path(target_folder)
 
     base_pe = PEData(target_path / "ForgedAlliance_base.exe")
@@ -503,7 +508,7 @@ def patch(_, target_folder, clang_compiler_path, linker_path, gcc_compiler_path,
     apply_sig_patches(target_path / "SigPatches.txt", base_file_data)
 
     def save_new_base_data(data: bytearray):
-        with open(target_path / "ForgedAlliance_exxt.exe", "wb") as nf:
+        with open(output_path / "ForgedAlliance.exe", "wb") as nf:
             sect_count = len(base_pe.sects)
             nf.write(data)
             nf.seek(base_pe.offset+0x6)
